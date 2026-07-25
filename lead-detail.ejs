@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= lead.name %> — Lead Platform</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">Lead Platform</div>
+    <span class="muted"><%= user.name %> (<%= user.role %>)</span>
+  </div>
+  <div class="container">
+    <a href="/dashboard" class="muted">← Back to dashboard</a>
+    <h1><%= lead.name %></h1>
+    <p class="muted"><%= lead.email %> <% if (lead.company) { %>· <%= lead.company %><% } %> <% if (lead.phone) { %>· <%= lead.phone %><% } %></p>
+
+    <div class="card">
+      <h3>Status pipeline</h3>
+      <span class="badge badge-<%= lead.status %>"><%= lead.status.replace('_',' ') %></span>
+      <form method="POST" action="/api/leads/<%= lead.id %>?_method=PATCH" id="statusForm" style="margin-top:12px; display:flex; gap:10px;">
+        <select name="status" id="statusSelect">
+          <% statuses.forEach(s => { %>
+            <option value="<%= s %>" <%= s === lead.status ? 'selected' : '' %>><%= s.replace('_',' ') %></option>
+          <% }) %>
+        </select>
+        <button type="button" onclick="updateStatus()">Update status</button>
+      </form>
+
+      <% if (user.role === 'admin') { %>
+        <div style="margin-top:16px;">
+          <label>Reassign to</label>
+          <select id="assignSelect">
+            <option value="">Unassigned</option>
+            <% users.forEach(u => { %>
+              <option value="<%= u.id %>" <%= u.id === lead.assigned_to ? 'selected' : '' %>><%= u.name %></option>
+            <% }) %>
+          </select>
+          <button type="button" onclick="reassign()" style="margin-top:8px;">Reassign</button>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="card">
+      <h3>Add note</h3>
+      <form id="noteForm">
+        <textarea id="noteBody" rows="3" placeholder="Add a note about this lead..."></textarea>
+        <button type="button" onclick="addNote()" style="margin-top:10px;">Add note</button>
+      </form>
+      <div id="notesList" style="margin-top:16px;">
+        <% notes.forEach(n => { %>
+          <div class="activity-item">
+            <div><%= n.body %></div>
+            <div class="meta"><%= n.author_name || 'Unknown' %> · <%= n.created_at %></div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Activity trail</h3>
+      <% activity.forEach(a => { %>
+        <div class="activity-item">
+          <strong><%= a.action.replace('_',' ') %></strong>
+          <% if (a.details) { %> — <%= a.details %><% } %>
+          <div class="meta"><%= a.actor_name || 'System' %> · <%= a.created_at %></div>
+        </div>
+      <% }) %>
+      <% if (activity.length === 0) { %><p class="muted">No activity yet.</p><% } %>
+    </div>
+  </div>
+
+  <script>
+    const leadId = <%= lead.id %>;
+
+    async function updateStatus() {
+      const status = document.getElementById('statusSelect').value;
+      const res = await fetch(`/api/leads/${leadId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+      if (res.ok) location.reload();
+      else alert('Failed to update status: ' + (await res.json()).error);
+    }
+
+    async function reassign() {
+      const assigned_to = document.getElementById('assignSelect').value || null;
+      const res = await fetch(`/api/leads/${leadId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ assigned_to })
+      });
+      if (res.ok) location.reload();
+      else alert('Failed to reassign: ' + (await res.json()).error);
+    }
+
+    async function addNote() {
+      const body = document.getElementById('noteBody').value.trim();
+      if (!body) return;
+      const res = await fetch(`/api/leads/${leadId}/notes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ body })
+      });
+      if (res.ok) location.reload();
+      else alert('Failed to add note: ' + (await res.json()).error);
+    }
+  </script>
+</body>
+</html>

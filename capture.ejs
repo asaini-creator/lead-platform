@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get in touch — Lead Platform Demo</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">Lead Platform</div>
+    <a href="/login">Team login</a>
+  </div>
+  <div class="container" style="max-width: 480px;">
+    <div class="card">
+      <h1>Talk to sales</h1>
+      <p class="muted">Fill this in and someone from our team will reach out.</p>
+
+      <% if (typeof success !== 'undefined' && success) { %>
+        <p class="success">Thanks — we've got your details and will be in touch shortly.</p>
+      <% } %>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <p class="error"><%= error %></p>
+      <% } %>
+
+      <form method="POST" action="/capture">
+        <div class="field">
+          <label>Full name</label>
+          <input type="text" name="name" required />
+        </div>
+        <div class="field">
+          <label>Work email</label>
+          <input type="email" name="email" required />
+        </div>
+        <div class="field">
+          <label>Company</label>
+          <input type="text" name="company" />
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input type="tel" name="phone" />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+  <div class="footer-credit">
+    Built for Digital Heroes Training Task — <a href="https://digitalheroesco.com">digitalheroesco.com</a>
+  </div>
+</body>
+</html>

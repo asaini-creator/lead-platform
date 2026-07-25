@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — Lead Platform</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container" style="max-width: 400px; padding-top: 80px;">
+    <div class="card">
+      <h1>Team login</h1>
+      <% if (error) { %><p class="error"><%= error %></p><% } %>
+      <form method="POST" action="/login">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" required />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" name="password" required />
+        </div>
+        <button type="submit">Log in</button>
+      </form>
+      <p class="muted" style="margin-top: 16px;">
+        Demo credentials — Admin: admin@demo.com / AdminPass123!<br />
+        Member: member@demo.com / MemberPass123!
+      </p>
+    </div>
+  </div>
+</body>
+</html>

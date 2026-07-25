@@ -1,0 +1,52 @@
+:root {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --border: #262b36;
+  --text: #e6e8ec;
+  --muted: #8a90a2;
+  --accent: #5b8def;
+  --accent-hover: #4a76d1;
+  --green: #4caf7d;
+  --amber: #d9a441;
+  --red: #d9544f;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+.container { max-width: 960px; margin: 0 auto; padding: 32px 20px; }
+.topbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid var(--border); }
+.topbar .brand { font-weight: 700; letter-spacing: 0.02em; }
+a { color: var(--accent); text-decoration: none; }
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+h1, h2, h3 { margin-top: 0; }
+input, select, textarea, button {
+  font-family: inherit; font-size: 14px; color: var(--text);
+  background: #10131a; border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; width: 100%;
+}
+label { display: block; margin-bottom: 6px; color: var(--muted); font-size: 13px; }
+.field { margin-bottom: 14px; }
+button, .btn {
+  background: var(--accent); border: none; color: #fff; cursor: pointer; width: auto;
+  padding: 10px 18px; font-weight: 600; display: inline-block;
+}
+button:hover, .btn:hover { background: var(--accent-hover); }
+.btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
+th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+tr:hover { background: #1c2029; }
+.badge { padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; }
+.badge-new { background: #2a3550; color: #93b4ff; }
+.badge-contacted { background: #3a3220; color: var(--amber); }
+.badge-qualified { background: #203a2f; color: var(--green); }
+.badge-proposal_sent { background: #2a2050; color: #b09bff; }
+.badge-won { background: #1c4d33; color: #6fe0a3; }
+.badge-lost { background: #4d1c1c; color: #e08a8a; }
+.error { color: var(--red); font-size: 14px; margin-bottom: 12px; }
+.success { color: var(--green); font-size: 14px; margin-bottom: 12px; }
+.muted { color: var(--muted); font-size: 13px; }
+.footer-credit { text-align: center; padding: 20px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 40px; }
+.filters { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.filters select, .filters input { width: auto; min-width: 160px; }
+.activity-item { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.activity-item .meta { color: var(--muted); }
